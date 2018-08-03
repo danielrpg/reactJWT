@@ -43,10 +43,9 @@ function getAll() {
 function getById(id) {
     const requestOptions = {
         method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(user)
+        headers: authHeader()
     };
-    return fetch(`${config.apiUrl}/users/register`, requestOptions).then(handleResponse);
+    return fetch(`${config.apiUrl}/users/${id}`, requestOptions).then(handleResponse);
 }
 
 function register(user) {
@@ -69,7 +68,7 @@ function update(user) {
     return fetch(`${config.apiUrl}/users/${user.id}`, requestOptions).then(handleResponse);
 }
 
-function _delete() {
+function _delete(id) {
     const requestOptions = {
         method: 'DELETE',
         headers: authHeader()
@@ -84,7 +83,7 @@ function handleResponse(response) {
         if(!response.ok) {
             if(response.status === 401) {
                 logout();
-                location.reload(true);
+               // location.reload(true);
             }
             const error = (data && data.message) || response.statusText;
             return Promise.reject(error);

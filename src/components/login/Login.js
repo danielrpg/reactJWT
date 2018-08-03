@@ -1,9 +1,17 @@
 import React, { Component } from 'react';
-import { Container, Card, CardTitle, Row, Col, Button, Form, FormGroup, Label, Input} from 'reactstrap';
+import { Card, CardTitle, Row, Col, Button, Form, FormGroup, Label, Input} from 'reactstrap';
 import { LOGIN_PAGE } from '../../constants';
 import './login.css';
+import { userAction } from '../../actions';
 
 class Login extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.props.dispatch(userAction.logout());
+    }
+
     render() {
         return(
             <div className="login-container">
@@ -15,7 +23,7 @@ class Login extends Component {
                         <Card body className="card-login">
                             <CardTitle>{ LOGIN_PAGE.LOGIN_TITLE }</CardTitle>
                             <hr />
-                            <Form>
+                            <Form onSubmit={this.handleSubmit}>
                                 <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                                     <Label for="login_email" className="mr-sm-2">{ LOGIN_PAGE.LOGIN_LBL_EMAIL }</Label>
                                     <Input type="email" name="email" id="login_email" placeholder={ LOGIN_PAGE.LOGIN_TXT_EMAIL_PH } />

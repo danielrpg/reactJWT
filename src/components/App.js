@@ -17,20 +17,21 @@ class App extends Component {
   }
 
   render() {
-    const { alert } = this.props;
+    // const { alert } = this.props;
     return (
         <div>
             <Jumbotron fluid>
                 <Container fluid>
                     <h1 className="display-3 text-center">Cars Shopping</h1>
+                    {/*{ alert.message && <div className={`alert ${alert.type}`}> { alert.message } </div> }*/}
+                    <BrowserRouter>
+                        <Switch>
+                            <Route path="/auth" component={UnauthorizedLayout} />
+                            {/*<AuthorizedRoute path="/app" component={PrimaryLayout} />*/}
+                            <Redirect to="/auth" />
+                        </Switch>
+                    </BrowserRouter>
                 </Container>
-                <BrowserRouter>
-                    <Switch>
-                        <Route path="/auth" component={UnauthorizedLayout} />
-                        {/*<AuthorizedRoute path="/app" component={PrimaryLayout} />*/}
-                        <Redirect to="/auth" />
-                    </Switch>
-                </BrowserRouter>
             </Jumbotron>
 
         </div>
