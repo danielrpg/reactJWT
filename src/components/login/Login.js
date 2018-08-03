@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Card, CardTitle, Row, Col, Button, Form, FormGroup, Label, Input} from 'reactstrap';
-import { LOGIN_PAGE } from '../../constants';
+import { connect } from 'react-redux';
+import { loginConstants } from '../../constants';
 import './login.css';
 import { userAction } from '../../actions';
 
@@ -21,16 +22,16 @@ class Login extends Component {
                     </Col>
                     <Col xs="6">
                         <Card body className="card-login">
-                            <CardTitle>{ LOGIN_PAGE.LOGIN_TITLE }</CardTitle>
+                            <CardTitle>{ loginConstants.LOGIN_TITLE }</CardTitle>
                             <hr />
                             <Form onSubmit={this.handleSubmit}>
                                 <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                                    <Label for="login_email" className="mr-sm-2">{ LOGIN_PAGE.LOGIN_LBL_EMAIL }</Label>
-                                    <Input type="email" name="email" id="login_email" placeholder={ LOGIN_PAGE.LOGIN_TXT_EMAIL_PH } />
+                                    <Label for="login_email" className="mr-sm-2">{ loginConstants.LOGIN_LBL_EMAIL }</Label>
+                                    <Input type="email" name="email" id="login_email" placeholder={ loginConstants.LOGIN_TXT_EMAIL_PH } />
                                 </FormGroup>
                                 <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                                    <Label for="login_password" className="mr-sm-2">{ LOGIN_PAGE.LOGIN_LBL_PASSWORD }</Label>
-                                    <Input type="password" name="password" id="login_password" placeholder={ LOGIN_PAGE.LOGIN_TXT_PASSWORD } />
+                                    <Label for="login_password" className="mr-sm-2">{ loginConstants.LOGIN_LBL_PASSWORD }</Label>
+                                    <Input type="password" name="password" id="login_password" placeholder={ loginConstants.LOGIN_TXT_PASSWORD } />
                                 </FormGroup>
                                 <br />
                                 <Row className="text-center">
@@ -38,7 +39,7 @@ class Login extends Component {
 
                                     </Col>
                                     <Col xs="2">
-                                        <Button className="btn-outline-primary">{ LOGIN_PAGE.LOGIN_BTN_TITLE }</Button>
+                                        <Button className="btn-outline-primary">{ loginConstants.LOGIN_BTN_TITLE }</Button>
                                     </Col>
                                     <Col xs="2">
                                         <a href="#">Register</a>
@@ -59,4 +60,11 @@ class Login extends Component {
     }
 }
 
-export default Login;
+function mapStateToProps(state) {
+    const { loggingIn } = state.authentication;
+    return {
+        loggingIn
+    };
+}
+
+export default connect(mapStateToProps)(Login);

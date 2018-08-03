@@ -1,39 +1,58 @@
-var path = require('path');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebPackPlugin = require('html-webpack-plugin');
+
+const htmlPlugin = new HtmlWebPackPlugin({
+    template: './public/index.html',
+    filename: './public/index.html',
+    favicon: './public/favicon.ico'
+});
 
 module.exports = {
-    entry: './src/index.jsx',
+    mode: 'development',
+    entry: './src/index.js',
     output: {
-        path: path.resolve('dist'),
-        filename: 'bundle.js'
+        path: __dirname + 'public/assets',
+        filename: 'bundle.js',
+        publicPath: 'assets'
     },
-    resolve: {
-        extensions: ['.js', '.jsx']
-    },
-    module: {
-        loaders: [
-            {
-                test: /\.jsx?$/,
-                exclude: /(node_modules|bower_components)/,
-                loader: 'babel-loader',
-                query: {
-                    presets: ['react', 'es2015', 'stage-3']
-                }
-            }
-        ]
-    },
-    plugins: [new HtmlWebpackPlugin({
-        template: './src/index.html',
-        filename: 'index.html',
-        inject: 'body'
-    })],
     devServer: {
-        historyApiFallback: true
+      inline: true,
+      contentBase: './public',
+      port: 4000
     },
     externals: {
         // global app config object
         config: JSON.stringify({
-            apiUrl: 'http://localhost:4000'
+            apiUrl: 'http://localhost:3000'
         })
-    }
+    },
+    module: {
+        rules: [
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader'
+                }
+            },
+            {
+                test: /\.css$/,
+                use: [
+                    {
+                        loader: 'style-loader'
+                    },
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            modules: true,
+                            importLoaders: 1,
+                            localIndentName: '[name]_[local]_[hash:base64]',
+                            sourceMap: true,
+                            minimize: true
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    plugins: [htmlPlugin]
 }
